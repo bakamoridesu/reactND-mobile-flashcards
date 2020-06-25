@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import { soft, light } from "../utils/colors";
+import { soft, light, dark } from "../utils/colors";
 import { handleAddDeck } from "../actions";
 import {connect} from "react-redux";
 import { CommonActions } from '@react-navigation/native'
@@ -11,7 +11,7 @@ function SubmitBtn({onPress}) {
     <TouchableOpacity
       style={styles.submit}
       onPress={onPress}>
-      <Text style={{color: soft, fontWeight: 'bold'}}>Submit</Text>
+      <Text style={{color: dark, fontWeight: 'bold'}}>Submit</Text>
     </TouchableOpacity>
   )
 }
@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 2,
     borderColor: light,
-    borderRadius: 5,
     height: 42,
     width: '90%',
     backgroundColor: light,
