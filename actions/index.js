@@ -1,5 +1,5 @@
 import {AsyncStorage} from "react-native";
-import {CARDS_STORAGE_KEY} from "../utils/api";
+const CARDS_STORAGE_KEY = 'reactND-mobile-flashcards:cards'
 
 export const RECEIVE_DATA = 'RECEIVE_DATA'
 export const ADD_DECK = 'ADD_DECK'
@@ -65,10 +65,20 @@ export function handleAddDeck(key) {
 export function removeDeck(deckName) {
   return {
     type: REMOVE_DECK,
-    deckName,
+    key: deckName,
   }
 }
 
+export function handleRemoveDeck(deckName) {
+  return (dispatch) => {
+    console.log('inside action')
+    AsyncStorage.getItem(CARDS_STORAGE_KEY, (err, items) => {
+      const {[deckName]: value, ...newItems} = JSON.parse(items)
+      AsyncStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(newItems))
+    })
+      .then(dispatch(removeDeck(deckName)))
+  }
+}
 
 const questions = {
   React: {

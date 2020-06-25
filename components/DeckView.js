@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {connect} from "react-redux";
 import {dark, light, red, soft} from "../utils/colors";
 import {TouchableWithoutFeedback} from "react-native-web";
+import {handleRemoveDeck} from "../actions";
+import {CommonActions} from "@react-navigation/native";
 
 function Btn({onPress, text}) {
   return (
@@ -18,6 +20,12 @@ function Btn({onPress, text}) {
 
 class DeckView extends Component {
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if(nextProps.deleted === true){
+      return false
+    }
+  }
+
   addCard = () => {
 
   }
@@ -26,13 +34,20 @@ class DeckView extends Component {
 
   }
 
+  handlePress = () => {
+    console.log('handle press')
+    this.props.dispatch(handleRemoveDeck(this.props.title))
+    this.props.navigation.dispatch(CommonActions.goBack())
+  }
+
   render() {
-    const len = this.props.deck.questions.length
+    const {title, questions} = this.props
+    const len = questions.length
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>
-            {this.props.deck.title}
+            {title}
           </Text>
           <Text style={{color: light}}>
             {`${len} card${(len%10!==1 && len%100!==11)? 's':''}`}
@@ -41,7 +56,7 @@ class DeckView extends Component {
         <View style={styles.buttons}>
           <Btn onPress={this.addCard} text={'Add Card'}/>
           <Btn onPress={this.startQuiz} text={'Start Quiz'} />
-          <TouchableWithoutFeedback onPress = {()=>console.log('click')}>
+          <TouchableWithoutFeedback onPress = {this.handlePress}>
             <View>
               <Text style={{
                 fontSize: 24,
@@ -93,8 +108,17 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(questions, {route}) {
-  return {
-    deck: questions[route.params.deckId]
+  const deck = questions[route.params.deckId]
+  if(deck){
+    return {
+      title: deck.title,
+      questions: deck.questions
+    }
+  }
+  else {
+    return {
+      deleted: true
+    }
   }
 }
 

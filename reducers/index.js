@@ -1,4 +1,4 @@
-import {ADD_DECK, RECEIVE_DATA} from "../actions";
+import {ADD_DECK, RECEIVE_DATA, REMOVE_DECK} from "../actions";
 
 export default (state= {}, action) => {
   switch (action.type) {
@@ -10,6 +10,11 @@ export default (state= {}, action) => {
         [action.key]: {
           ...action.deck
         },
+      }
+    case REMOVE_DECK:
+      const {[action.key]: value, ...newState} = state
+      return {
+        ...newState,
       }
   }
 }
