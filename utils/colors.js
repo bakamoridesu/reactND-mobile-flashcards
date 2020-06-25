@@ -1,10 +1,12 @@
 // backgrounds
-export const light = 'e18d96'
+export const light = '#e18d96'
 // tabs, buttons
-export const dark = '909090'
+export const dark = '#ab6393'
 // TRUE button
-export const green = 'c1cd97'
+export const green = '#2e8364'
 // FALSE button
-export const red = 'e18d96'
+export const red = '#a02c2d'
 // flip card button
-export const soft = 'c8b4ba'
+export const soft = '#AA7B6F'
+
+export const white = '#fff'
