@@ -4,7 +4,7 @@ import {View, Text, FlatList, StyleSheet, SafeAreaView} from 'react-native'
 function Item (item) {
 
     return (
-        <View>
+        <View onClick={console.log('clicked')}>
             <Text>
                 {item.title}
             </Text>
