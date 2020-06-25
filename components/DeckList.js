@@ -4,16 +4,15 @@ import {connect} from "react-redux";
 import {handleInitialData} from "../actions";
 import {dark, light, soft} from "../utils/colors";
 
-function Item(item) {
-
+function Item(props) {
   return (
-    <TouchableWithoutFeedback onPress={() => console.log(item.title)}>
+    <TouchableWithoutFeedback onPress={() => props.onPress(props.item.title)}>
       <View style={styles.listItem}>
         <Text style={styles.listItemTitle}>
-          {item.title}
+          {props.item.title}
         </Text>
         <Text>
-          {`${item.questions.length} questions`}
+          {`${props.item.questions.length} questions`}
         </Text>
       </View>
     </TouchableWithoutFeedback>
@@ -25,6 +24,10 @@ class DeckList extends Component {
     console.log('MOUNT')
     const {dispatch} = this.props
     dispatch(handleInitialData())
+  }
+
+  handlePress = (deckId) => {
+    this.props.navigation.navigate('DeckDetails', {deckId: deckId})
   }
 
   render() {
@@ -43,7 +46,7 @@ class DeckList extends Component {
       <SafeAreaView style={styles.container}>
         <FlatList
           data={Object.keys(questions)}
-          renderItem={({item}) => <Item key={questions[item].title} {...questions[item]}/>}
+          renderItem={({item}) => <Item onPress={this.handlePress} key={questions[item].title} item={questions[item]}/>}
           keyExtractor={item => questions[item].title}/>
       </SafeAreaView>
     )
