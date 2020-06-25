@@ -4,6 +4,7 @@ const CARDS_STORAGE_KEY = 'reactND-mobile-flashcards:cards'
 export const RECEIVE_DATA = 'RECEIVE_DATA'
 export const ADD_DECK = 'ADD_DECK'
 export const REMOVE_DECK = 'REMOVE_DECK'
+export const ADD_QUESTION = 'ADD_QUESTION'
 
 function formNewEntry(key) {
   return {
@@ -62,7 +63,7 @@ export function handleAddDeck(key) {
   }
 }
 
-export function removeDeck(deckName) {
+function removeDeck(deckName) {
   return {
     type: REMOVE_DECK,
     key: deckName,
@@ -79,6 +80,42 @@ export function handleRemoveDeck(deckName) {
       .then(dispatch(removeDeck(deckName)))
   }
 }
+
+function addQuestion(deckName, question) {
+  return {
+    type: ADD_QUESTION,
+    key: deckName,
+    question,
+  }
+}
+
+function formQuestion(question, answer) {
+  return {
+    question,
+    answer,
+  }
+}
+
+export function handleAddQuestion(deckName, question, answer) {
+  return (dispatch) => {
+    const questionObj = formQuestion(question, answer)
+    AsyncStorage.getItem(CARDS_STORAGE_KEY, (err, items) => {
+      const item = JSON.parse(items)[deckName]
+      console.log('item!!!!', item)
+      const newItem = {
+        ...item,
+        questions: item.questions.concat([questionObj])
+      }
+      console.log('newItem!!!!!!', newItem)
+      AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify({
+        [deckName]: newItem,
+      }))
+    })
+      .then(dispatch(addQuestion(deckName, questionObj)))
+  }
+}
+
+
 
 const questions = {
   React: {

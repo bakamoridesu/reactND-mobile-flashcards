@@ -10,6 +10,7 @@ import reducer from './reducers'
 import middleware from './middleware'
 import { createStackNavigator } from "@react-navigation/stack";
 import DeckView from "./components/DeckView";
+import AddCard from "./components/AddCard";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -28,9 +29,10 @@ export default function App() {
     <Provider store={createStore(reducer, middleware)}>
       <View style={styles.container}>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName='Home'>
             <Stack.Screen name='Home' component={MyTabs} options={{headerShown: false}}/>
             <Stack.Screen name='DeckDetails' component={DeckView}/>
+            <Stack.Screen name='AddCard' component={AddCard}/>
           </Stack.Navigator>
         </NavigationContainer>
       </View>

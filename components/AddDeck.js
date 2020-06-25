@@ -1,20 +1,9 @@
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import { soft, light, dark } from "../utils/colors";
-import { handleAddDeck } from "../actions";
+import React, {Component} from 'react'
+import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import {soft, light, dark, white} from "../utils/colors";
+import {handleAddDeck} from "../actions";
 import {connect} from "react-redux";
-import { CommonActions } from '@react-navigation/native'
-
-
-function SubmitBtn({onPress}) {
-  return (
-    <TouchableOpacity
-      style={styles.submit}
-      onPress={onPress}>
-      <Text style={{color: dark, fontWeight: 'bold'}}>Submit</Text>
-    </TouchableOpacity>
-  )
-}
+import {CommonActions} from '@react-navigation/native'
 
 class AddDeck extends Component {
 
@@ -29,8 +18,6 @@ class AddDeck extends Component {
     this.props.navigation.dispatch(CommonActions.goBack())
   }
 
-
-
   render() {
     return (
       <View style={styles.container}>
@@ -42,8 +29,15 @@ class AddDeck extends Component {
           placeholder='Enter Deck Name'
           onChangeText={text => this.setState({name: text})}
           defaultValue={this.state.name}
-          />
-        <SubmitBtn onPress={this.handleAddDeck}/>
+        />
+        <TouchableOpacity
+          disabled={this.state.name === ''}
+          style={this.state.name === '' ? styles.submitDisabled : styles.submit}
+          onPress={() => this.handleAddDeck()}>
+          <Text style={this.state.name === ''
+            ? styles.submitTextDisabled
+            : styles.submitText}>Submit</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -78,5 +72,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+  },
+  submitDisabled: {
+    backgroundColor: white,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    height: 45,
+    borderRadius: 10,
+    borderColor: light,
+    borderWidth: 4,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  submitText: {
+    color: dark,
+    fontWeight: 'bold'
+  },
+  submitTextDisabled: {
+    color: 'gray',
   }
 });

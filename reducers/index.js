@@ -1,4 +1,4 @@
-import {ADD_DECK, RECEIVE_DATA, REMOVE_DECK} from "../actions";
+import {ADD_DECK, ADD_QUESTION, RECEIVE_DATA, REMOVE_DECK} from "../actions";
 
 export default (state= {}, action) => {
   switch (action.type) {
@@ -15,6 +15,14 @@ export default (state= {}, action) => {
       const {[action.key]: value, ...newState} = state
       return {
         ...newState,
+      }
+    case ADD_QUESTION:
+      return {
+        ...state,
+        [action.key]: {
+          ...state[action.key],
+          questions: state[action.key].questions.concat([action.question])
+        }
       }
   }
 }

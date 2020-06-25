@@ -11,23 +11,19 @@ function Btn({onPress, text}) {
     <TouchableOpacity
       style={styles.submit}
       onPress={onPress}>
-      <Text>{text}</Text>
+      <Text style={{color: dark, fontSize: 18}}>{text}</Text>
     </TouchableOpacity>
   )
 }
 
-
-
 class DeckView extends Component {
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if(nextProps.deleted === true){
-      return false
-    }
+    return nextProps.deleted !== true;
   }
 
   addCard = () => {
-
+    this.props.navigation.navigate('AddCard', {deckId: this.props.title})
   }
 
   startQuiz = () => {
@@ -95,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 30,
     paddingRight: 30,
-    height: 45,
+    height: 55,
     borderRadius: 10,
     borderColor: light,
     borderWidth: 4,
@@ -112,7 +108,8 @@ function mapStateToProps(questions, {route}) {
   if(deck){
     return {
       title: deck.title,
-      questions: deck.questions
+      questions: deck.questions,
+      deleted: false
     }
   }
   else {
