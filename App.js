@@ -1,19 +1,24 @@
 import * as React from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { StyleSheet, View } from 'react-native';
+import {createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import DeckList from "./components/DeckList";
 import AddDeck from "./components/AddDeck";
-import {NavigationContainer} from "@react-navigation/native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStore } from "redux";
+import { Provider } from 'react-redux'
+import reducer from './reducers'
+import middleware from './middleware'
 
 const Tab = createMaterialTopTabNavigator();
 
 function MyTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="DeckList" component={DeckList}/>
-      <Tab.Screen name="AddDeck" component={AddDeck}/>
-    </Tab.Navigator>
+    <Provider store={createStore(reducer, middleware)}>
+      <Tab.Navigator>
+        <Tab.Screen name="DeckList" component={DeckList}/>
+        <Tab.Screen name="AddDeck" component={AddDeck}/>
+      </Tab.Navigator>
+    </Provider>
   );
 }
 

@@ -20,7 +20,7 @@ class AddDeck extends Component {
         <Text style={{fontSize: 42, padding: 20, textAlign: 'center', color: soft}}>
           What's the name of your new deck?
         </Text>
-        <TextInput style={styles.input}/>
+        <TextInput style={styles.input} placeholder='Enter Deck Name'/>
         <SubmitBtn/>
       </View>
     )
