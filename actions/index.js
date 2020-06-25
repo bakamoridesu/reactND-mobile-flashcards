@@ -1,4 +1,5 @@
-import {AsyncStorage} from "react-native-web";
+import {AsyncStorage} from "react-native";
+import {CARDS_STORAGE_KEY} from "../utils/api";
 
 export const RECEIVE_DATA = 'RECEIVE_DATA'
 export const ADD_DECK = 'ADD_DECK'
@@ -18,10 +19,28 @@ function getInitialData(data) {
   }
 }
 
+// If there is no such key in AsyncStorage,
+// initialize it with initial deck list (`questions` variable)
+// Read the available data otherwise.
+// Not sure if this is a right way to handle the absence of value in initial storage.
+
 export function handleInitialData() {
-  console.log('handleInitialData')
   return (dispatch) => {
-    dispatch(getInitialData(questions))
+    AsyncStorage.getItem(CARDS_STORAGE_KEY)
+      .then(res => {
+        if (!res) {
+          AsyncStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(questions))
+            .then(() => {
+              AsyncStorage.getItem(CARDS_STORAGE_KEY, (err, res)=>{
+                dispatch(getInitialData(JSON.parse(res)))
+              })
+            })
+        } else {
+          AsyncStorage.getItem(CARDS_STORAGE_KEY, (err, res)=>{
+            dispatch(getInitialData(JSON.parse(res)))
+          })
+        }
+      })
   }
 }
 
@@ -39,7 +58,7 @@ export function handleAddDeck(key) {
     return AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify({
       [key]: entry,
     }))
-      .then(()=> dispatch(addDeck(key, entry)))
+      .then(() => dispatch(addDeck(key, entry)))
   }
 }
 

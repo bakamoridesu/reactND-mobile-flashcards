@@ -1,5 +1,5 @@
 // backgrounds
-export const light = '#e18d96'
+export const light = '#FCF0CF'
 // tabs, buttons
 export const dark = '#ab6393'
 // TRUE button

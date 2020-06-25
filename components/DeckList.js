@@ -1,16 +1,22 @@
 import React, {Component} from 'react'
-import {View, Text, FlatList, StyleSheet, SafeAreaView} from 'react-native'
+import {View, Text, FlatList, StyleSheet, SafeAreaView, TouchableWithoutFeedback} from 'react-native'
 import {connect} from "react-redux";
 import {handleInitialData} from "../actions";
+import {dark, light, soft} from "../utils/colors";
 
 function Item(item) {
 
   return (
-    <View onClick={console.log('clicked')}>
-      <Text>
-        {item.title}
-      </Text>
-    </View>
+    <TouchableWithoutFeedback onPress={() => console.log(item.title)}>
+      <View style={styles.listItem}>
+        <Text style={styles.listItemTitle}>
+          {item.title}
+        </Text>
+        <Text>
+          {`${item.questions.length} questions`}
+        </Text>
+      </View>
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -37,7 +43,7 @@ class DeckList extends Component {
       <SafeAreaView style={styles.container}>
         <FlatList
           data={Object.keys(questions)}
-          renderItem={({item}) => <Item {...questions[item]}/>}
+          renderItem={({item}) => <Item key={questions[item].title} {...questions[item]}/>}
           keyExtractor={item => questions[item].title}/>
       </SafeAreaView>
     )
@@ -80,5 +86,24 @@ const questions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: soft,
   },
+  listItem: {
+    height: 100,
+    borderWidth: 2,
+    borderColor: dark,
+    margin: 5,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: light,
+  },
+  listItemTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: dark,
+  }
 });
