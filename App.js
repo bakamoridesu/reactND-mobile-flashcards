@@ -6,7 +6,7 @@ import AddDeck from "./components/AddDeck";
 import {NavigationContainer} from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 function MyTabs() {
   return (
@@ -21,10 +21,7 @@ export default function App() {
   return (
     <View style={styles.container}>
         <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen name="DeckList" component={DeckList} />
-            <Tab.Screen name="AddDeck" component={AddDeck} />
-          </Tab.Navigator>
+          <MyTabs/>
         </NavigationContainer>
     </View>
   );
@@ -35,3 +32,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+
