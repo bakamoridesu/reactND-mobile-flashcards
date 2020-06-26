@@ -27,7 +27,7 @@ class DeckView extends Component {
   }
 
   startQuiz = () => {
-
+    this.props.navigation.navigate('QuizView', {deckId: this.props.title})
   }
 
   handlePress = () => {

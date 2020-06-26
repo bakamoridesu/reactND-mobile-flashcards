@@ -27,7 +27,7 @@ class DeckList extends Component {
   }
 
   handlePress = (deckId) => {
-    this.props.navigation.push('DeckDetails', {deckId: deckId})
+    this.props.navigation.navigate('DeckView', {deckId: deckId} )
   }
 
   render() {

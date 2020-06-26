@@ -11,9 +11,11 @@ import middleware from './middleware'
 import { createStackNavigator } from "@react-navigation/stack";
 import DeckView from "./components/DeckView";
 import AddCard from "./components/AddCard";
+import QuizView from "./components/QuizView";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
+const InStack = createStackNavigator();
 
 function MyTabs() {
   return (
@@ -31,8 +33,9 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName='Home'>
             <Stack.Screen name='Home' component={MyTabs} options={{headerShown: false}}/>
-            <Stack.Screen name='DeckDetails' component={DeckView}/>
+            <Stack.Screen name='DeckView' component={DeckView} />
             <Stack.Screen name='AddCard' component={AddCard}/>
+            <Stack.Screen name='QuizView' component={QuizView}/>
           </Stack.Navigator>
         </NavigationContainer>
       </View>
