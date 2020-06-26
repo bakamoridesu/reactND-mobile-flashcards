@@ -1,17 +1,19 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {connect} from "react-redux";
-import {dark, light, red, soft} from "../utils/colors";
+import {dark, light, red, soft, white} from "../utils/colors";
 import {TouchableWithoutFeedback} from "react-native-web";
 import {handleRemoveDeck} from "../actions";
 import {CommonActions} from "@react-navigation/native";
 
-function Btn({onPress, text}) {
+function Btn({onPress, text, disabled=false}) {
   return (
-    <TouchableOpacity
-      style={styles.submit}
+    <TouchableOpacity disabled = {disabled}
+      style={disabled? [styles.submit, styles.disabled] : styles.submit}
       onPress={onPress}>
-      <Text style={{color: dark, fontSize: 18}}>{text}</Text>
+      <Text style={disabled
+        ? [styles.submitText, styles.disabledText]
+        : styles.submitText}>{text}</Text>
     </TouchableOpacity>
   )
 }
@@ -51,7 +53,7 @@ class DeckView extends Component {
         </View>
         <View style={styles.buttons}>
           <Btn onPress={this.addCard} text={'Add Card'}/>
-          <Btn onPress={this.startQuiz} text={'Start Quiz'} />
+          <Btn onPress={this.startQuiz} text={'Start Quiz'} disabled={len<1}/>
           <TouchableWithoutFeedback onPress = {this.handlePress}>
             <View>
               <Text style={{
@@ -100,6 +102,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     width: '50%',
+  },
+  disabled: {
+    backgroundColor: white
+  },
+  submitText: {
+    color: dark,
+    fontSize: 18
+  },
+  disabledText: {
+    color: 'gray'
   }
 })
 
