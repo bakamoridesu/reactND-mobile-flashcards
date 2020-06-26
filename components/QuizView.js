@@ -5,6 +5,8 @@ import {dark, green, light, red, soft} from "../utils/colors";
 import {TouchableWithoutFeedback} from "react-native-web";
 import {CommonActions} from '@react-navigation/native'
 
+import { clearLocalNotifications } from "../utils/helpers";
+
 function Btn({onPress, text, style, textStyle}) {
   return (
     <TouchableOpacity
@@ -50,6 +52,7 @@ class QuizView extends Component {
 
     // if all questions asked, show result view.
     if(question > size) {
+      clearLocalNotifications()
       return (
         <View style={styles.results}>
           <View style={{flex: 2, justifyContent: 'center'}}>

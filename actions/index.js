@@ -101,12 +101,10 @@ export function handleAddQuestion(deckName, question, answer) {
     const questionObj = formQuestion(question, answer)
     AsyncStorage.getItem(CARDS_STORAGE_KEY, (err, items) => {
       const item = JSON.parse(items)[deckName]
-      console.log('item!!!!', item)
       const newItem = {
         ...item,
         questions: item.questions.concat([questionObj])
       }
-      console.log('newItem!!!!!!', newItem)
       AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify({
         [deckName]: newItem,
       }))
@@ -122,12 +120,16 @@ const questions = {
     title: 'React',
     questions: [
       {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
+        question: 'Is react a JS library?',
+        answer: true,
       },
       {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
+        question: 'Can you make Ajax requests from the render method?',
+        answer: false
+      },
+      {
+        question: 'Can you build apps for both ios and android with React Native?',
+        answer: true,
       }
     ]
   },
@@ -135,17 +137,8 @@ const questions = {
     title: 'JavaScript',
     questions: [
       {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
-      }
-    ]
-  },
-  Java: {
-    title: 'Java',
-    questions: [
-      {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
+        question: 'Is closure a combination of a function and the lexical environment within which that function was declared?',
+        answer: true,
       }
     ]
   }

@@ -3,19 +3,21 @@ import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import {soft, light, dark, white, red} from "../utils/colors";
 import {handleAddDeck} from "../actions";
 import {connect} from "react-redux";
-import {CommonActions} from '@react-navigation/native'
 
 class AddDeck extends Component {
 
   state = {
     name: ''
   }
-  handleAddDeck = () => {
-    this.props.dispatch(handleAddDeck(this.state.name))
+  handleAddDeck () {
+    const name = this.state.name
     this.setState({
       name: ''
     })
-    this.props.navigation.dispatch(CommonActions.goBack())
+
+    this.props.dispatch(handleAddDeck(name))
+      .then(() => this.props.navigation.navigate('DeckView', {deckId: name}))
+
   }
 
   render() {

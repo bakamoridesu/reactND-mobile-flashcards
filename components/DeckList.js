@@ -1,22 +1,27 @@
 import React, {Component} from 'react'
-import {View, Text, FlatList, StyleSheet, SafeAreaView, TouchableWithoutFeedback} from 'react-native'
+import {View, Text, FlatList, StyleSheet, SafeAreaView,TouchableOpacity} from 'react-native'
 import {connect} from "react-redux";
 import {handleInitialData} from "../actions";
 import {dark, light, soft} from "../utils/colors";
 
-function Item(props) {
-  return (
-    <TouchableWithoutFeedback onPress={() => props.onPress(props.item.title)}>
-      <View style={styles.listItem}>
-        <Text style={styles.listItemTitle}>
-          {props.item.title}
-        </Text>
-        <Text>
-          {`${props.item.questions.length} questions`}
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
-  )
+class Item extends Component {
+
+  render () {
+    const { item, onPress } = this.props
+    return (
+      <TouchableOpacity onPress={() => onPress(item.title)}>
+        <View style={[styles.listItem]}>
+          <Text style={styles.listItemTitle}>
+            {item.title}
+          </Text>
+          <Text>
+            {`${item.questions.length} questions`}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
 }
 
 class DeckList extends Component {
@@ -32,12 +37,15 @@ class DeckList extends Component {
 
   render() {
     const questions = this.props.questions
-
-    if (!questions) {
+    console.log(questions)
+    if (!questions || Object.keys(questions).length === 0) {
       return (
-        <View>
+        <View style={[styles.container,{justifyContent: 'center', alignItems: 'center'}]}>
+          <Text style={{fontSize: 32, color: light}}>
+            No deck to display!
+          </Text>
           <Text>
-            No entries!
+            Add decks to start
           </Text>
         </View>
       )
@@ -60,31 +68,6 @@ function mapStateToProps(questions) {
 }
 
 export default connect(mapStateToProps)(DeckList)
-
-const questions = {
-  React: {
-    title: 'React',
-    questions: [
-      {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
-      },
-      {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
-      }
-    ]
-  },
-  JavaScript: {
-    title: 'JavaScript',
-    questions: [
-      {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
-      }
-    ]
-  }
-}
 
 const styles = StyleSheet.create({
   container: {

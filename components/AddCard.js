@@ -1,16 +1,21 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Switch} from 'react-native'
 import {connect} from "react-redux";
-import {dark, green, light, red, soft} from "../utils/colors";
+import {dark, green, light, red, soft, white} from "../utils/colors";
 import {handleAddQuestion} from "../actions";
 import {CommonActions} from "@react-navigation/native";
 
-function Btn({onPress, text}) {
+function Btn({onPress, text, disabled}) {
   return (
     <TouchableOpacity
-      style={styles.submit}
+      style={disabled? [styles.submit, styles.disabled] : styles.submit}
       onPress={onPress}>
-      <Text style={{color: dark, fontSize: 18}}>{text}</Text>
+      <Text style={disabled? [styles.submitText, styles.submitTextDisabled] : styles.submitText}>{text}</Text>
+      {disabled && (
+        <Text style={{color: red, fontSize: 10}}>
+          enter question to submit
+        </Text>
+      )}
     </TouchableOpacity>
   )
 }
@@ -56,7 +61,7 @@ class AddCard extends Component {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Btn onPress={this.handleSubmit} text={'Submit'} />
+          <Btn onPress={this.handleSubmit} text={'Submit'} disabled={this.state.question === ''}/>
         </View>
 
       </View>
@@ -101,6 +106,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     width: '50%',
+  },
+  disabled:{
+    backgroundColor: white,
+  },
+  submitText: {
+    color: dark,
+    fontSize: 18
+  },
+  submitTextDisabled: {
+    color: 'grey'
   },
   answer: {
     flex:1,

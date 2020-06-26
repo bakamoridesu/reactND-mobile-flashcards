@@ -24,6 +24,11 @@ function Btn({onPress, text, disabled=false}) {
 }
 
 class DeckView extends Component {
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      headerTitle: `${this.props.title} deck`
+    })
+  }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return nextProps.deleted !== true;
@@ -45,6 +50,7 @@ class DeckView extends Component {
 
   render() {
     const {title, questions} = this.props
+    console.log('deckview props', this.props)
     const len = questions.length
     return (
       <View style={styles.container}>
@@ -122,6 +128,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(questions, {route}) {
   const deck = questions[route.params.deckId]
+
+  console.log('mapstate deck ', deck)
+  console.log('mapstate route ', route)
+  console.log('mapstate deckId ', route.params.deckId)
+  console.log('mapstate questions ', questions)
+
   if(deck){
     return {
       title: deck.title,
