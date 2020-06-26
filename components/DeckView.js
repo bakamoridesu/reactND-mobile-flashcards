@@ -14,6 +14,11 @@ function Btn({onPress, text, disabled=false}) {
       <Text style={disabled
         ? [styles.submitText, styles.disabledText]
         : styles.submitText}>{text}</Text>
+      {disabled && (
+        <Text style={{color: red, fontSize: 10}} >
+          Add cards to start quiz
+        </Text>
+      )}
     </TouchableOpacity>
   )
 }

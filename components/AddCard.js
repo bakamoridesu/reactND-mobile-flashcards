@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Switch} from 'react-native'
 import {connect} from "react-redux";
-import {dark, light, soft} from "../utils/colors";
+import {dark, green, light, red, soft} from "../utils/colors";
 import {handleAddQuestion} from "../actions";
 import {CommonActions} from "@react-navigation/native";
 
@@ -18,7 +18,7 @@ function Btn({onPress, text}) {
 class AddCard extends Component {
   state = {
     question: '',
-    answer: '',
+    answer: false,
   }
 
   handleSubmit = () => {
@@ -27,7 +27,13 @@ class AddCard extends Component {
     this.props.dispatch(handleAddQuestion(deckId, question, answer))
     this.props.navigation.dispatch(CommonActions.goBack())
   }
-
+  toggleSwitch = () => {
+    this.setState((prevState) => {
+      return {
+        answer: !prevState.answer
+      }
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -38,12 +44,16 @@ class AddCard extends Component {
             onChangeText={text => this.setState({question: text})}
             defaultValue={this.state.question}
           />
-          <TextInput
-            style={styles.input}
-            placeholder='Enter Answer'
-            onChangeText={text => this.setState({answer: text})}
-            defaultValue={this.state.answer}
-          />
+          <View style={styles.answer}>
+            <Text style={{color: light, fontSize: 24, flex:1}}>Is that correct?</Text>
+            <Switch
+
+              trackColor={{ false: red, true: light }}
+              thumbColor={this.state.answer ? green : red}
+              onValueChange={this.toggleSwitch}
+              value={this.state.answer}
+            />
+          </View>
         </View>
         <View style={styles.buttons}>
           <Btn onPress={this.handleSubmit} text={'Submit'} />
@@ -91,6 +101,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     width: '50%',
+  },
+  answer: {
+    flex:1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    width: '90%',
   }
 })
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
-import {soft, light, dark, white} from "../utils/colors";
+import {soft, light, dark, white, red} from "../utils/colors";
 import {handleAddDeck} from "../actions";
 import {connect} from "react-redux";
 import {CommonActions} from '@react-navigation/native'
@@ -36,7 +36,12 @@ class AddDeck extends Component {
           onPress={() => this.handleAddDeck()}>
           <Text style={this.state.name === ''
             ? styles.submitTextDisabled
-            : styles.submitText}>Submit</Text>
+            : styles.submitText}>Add deck!</Text>
+          {this.state.name === '' && (
+            <Text style={{color: red, fontSize: 10}}>
+              deck has no name
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     )
